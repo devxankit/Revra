@@ -1,0 +1,73 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+
+# Coverage reports
+coverage/
+
+# Build output
+dist/
+build/
+
+# IDE files
+.vscode/
+.idea/
+
+# Misc
+*.local
+*.bak
+*.swp
+*.swo
+
+# Test output
+test-output/
+jest-test-results.json
+
+# PM2 logs
+pids/
+*.pid
+*.seed
+
+# MongoDB dump files
+dump/
+
+# Ignore uploads (if any)
+uploads/
+public/uploads/
+storage/
+tmp/
+temp/
+
+# Firebase Service Account (sensitive)
+config/firebase-service-account.json
+*.firebase-service-account.json
+
+# Google Service Account (sensitive)
+config/google-key.json
+*.google-key.json
+
+# Backup temp files (deleted after upload; ignore if orphaned)
+backup/*.gz
+backup/local/
+backup/backup.pid
+backup/backup.log
+backup/status.json

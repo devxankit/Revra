@@ -1,0 +1,78 @@
+# Updated Nginx Configuration for api.supercrm.appzeto.com
+# Copy this entire content and replace your existing config file
+# Location: /etc/nginx/sites-available/api.supercrm.appzeto.com
+
+# HTTPS Server Block (Primary)
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl ipv6only=on;
+    server_name api.supercrm.appzeto.com;
+
+    # SSL Configuration (Managed by Certbot)
+    ssl_certificate /etc/letsencrypt/live/api.supercrm.appzeto.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.supercrm.appzeto.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    # Max upload size
+    client_max_body_size 100M;
+
+    # IMPORTANT: Main location block - forwards ALL requests including OPTIONS to Node.js
+    # This ensures CORS preflight (OPTIONS) requests reach Node.js
+    location / {
+        # Proxy to Node.js running on port 5050
+        proxy_pass http://127.0.0.1:5050;
+        
+        # HTTP version
+        proxy_http_version 1.1;
+        
+        # WebSocket support
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        
+        # Standard proxy headers (preserves original request info)
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # Cache bypass for WebSocket
+        proxy_cache_bypass $http_upgrade;
+        
+        # IMPORTANT: Timeouts to prevent hanging requests
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+        
+        # Disable buffering for real-time responses (important for CORS)
+        proxy_buffering off;
+        proxy_request_buffering off;
+        
+        # CRITICAL: Do NOT add any CORS headers here
+        # Node.js (server.js) handles ALL CORS headers including OPTIONS preflight
+        # Adding CORS headers here would cause conflicts
+    }
+
+    # Optional: Direct health check (uncomment if needed)
+    # location = /health {
+    #     proxy_pass http://127.0.0.1:5050/health;
+    #     proxy_http_version 1.1;
+    #     proxy_set_header Host $host;
+    # }
+}
+
+# HTTP Server Block (Redirects to HTTPS)
+server {
+    listen 80;
+    listen [::]:80;
+    server_name api.supercrm.appzeto.com;
+
+    # Redirect all HTTP requests to HTTPS
+    if ($host = api.supercrm.appzeto.com) {
+        return 301 https://$host$request_uri;
+    }
+    
+    # Fallback (shouldn't be reached)
+    return 404;
+}
+
