@@ -3,7 +3,6 @@ const PM = require('../models/PM');
 const Sales = require('../models/Sales');
 const Employee = require('../models/Employee');
 const Client = require('../models/Client');
-const ChannelPartner = require('../models/ChannelPartner');
 
 /**
  * Get user model based on userType
@@ -25,8 +24,6 @@ function getUserModel(userType) {
       return Employee;
     case 'client':
       return Client;
-    case 'channel-partner':
-      return ChannelPartner;
     default:
       return null;
   }

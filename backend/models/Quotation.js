@@ -63,18 +63,7 @@ const quotationSchema = new mongoose.Schema({
   },
   lastShared: {
     type: Date
-  },
-  // Track which channel partners have shared this quotation
-  sharedBy: [{
-    channelPartner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ChannelPartner'
-    },
-    sharedAt: {
-      type: Date,
-      default: Date.now
-    }
-  }]
+  }
 }, {
   timestamps: true
 });
@@ -86,21 +75,9 @@ quotationSchema.index({ status: 1 });
 quotationSchema.index({ createdAt: -1 });
 
 // Method to increment share count
-quotationSchema.methods.incrementShare = function(cpId) {
+quotationSchema.methods.incrementShare = function() {
   this.timesShared += 1;
   this.lastShared = new Date();
-  
-  // Add to sharedBy array if not already present
-  const existingShare = this.sharedBy.find(
-    share => share.channelPartner.toString() === cpId.toString()
-  );
-  
-  if (!existingShare) {
-    this.sharedBy.push({
-      channelPartner: cpId,
-      sharedAt: new Date()
-    });
-  }
   
   return this.save();
 };

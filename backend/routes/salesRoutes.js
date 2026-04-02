@@ -16,13 +16,6 @@ const {
   getWalletSummary,
   getMyLeads,
   getLeadsByStatus,
-  getChannelPartnerLeads,
-  getChannelPartnerLeadDetail,
-  updateChannelPartnerLead,
-  upsertChannelPartnerLeadProfile,
-  addChannelPartnerLeadFollowUp,
-  getAssignedChannelPartners,
-  shareLeadWithCP,
   getLeadDetail,
   updateLeadStatus,
   addFollowUp,
@@ -86,13 +79,6 @@ router.get('/analytics/leaderboard', getSalesLeaderboard);
 // Lead Management
 router.get('/leads', getMyLeads);
 router.get('/leads/status/:status', getLeadsByStatus);
-router.get('/channel-partner-leads', getChannelPartnerLeads);
-router.get('/channel-partner-leads/:id', getChannelPartnerLeadDetail);
-router.put('/channel-partner-leads/:id', updateChannelPartnerLead);
-router.put('/channel-partner-leads/:id/profile', upsertChannelPartnerLeadProfile);
-router.post('/channel-partner-leads/:id/followups', addChannelPartnerLeadFollowUp);
-router.get('/assigned-channel-partners', getAssignedChannelPartners);
-router.post('/leads/:id/share-with-cp', shareLeadWithCP);
 router.get('/leads/:id', getLeadDetail);
 router.patch('/leads/:id/status', updateLeadStatus);
 

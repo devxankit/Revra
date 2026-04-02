@@ -4,7 +4,6 @@ const PM = require('../models/PM');
 const Sales = require('../models/Sales');
 const Employee = require('../models/Employee');
 const Client = require('../models/Client');
-const ChannelPartner = require('../models/ChannelPartner');
 
 // @desc    Protect routes - verify JWT token
 // @access  Private
@@ -27,10 +26,6 @@ const protect = async (req, res, next) => {
     // Check for sales token in cookies
     else if (req.cookies.salesToken) {
       token = req.cookies.salesToken;
-    }
-    // Check for channel partner token in cookies (CP portal sends credentials; cookie set on login)
-    else if (req.cookies.cpToken) {
-      token = req.cookies.cpToken;
     }
 
     // Make sure token exists
@@ -92,22 +87,6 @@ const protect = async (req, res, next) => {
             req.user.role = 'client';
             return next();
           }
-        } else if (decoded.role === 'channel-partner') {
-          const channelPartner = await ChannelPartner.findById(decoded.id);
-          if (channelPartner) {
-            if (!channelPartner.isActive) {
-              return res.status(403).json({
-                success: false,
-                message: 'Your account has been deactivated. Please contact support for assistance.',
-                code: 'ACCOUNT_INACTIVE'
-              });
-            }
-            req.channelPartner = channelPartner;
-            req.user = channelPartner;
-            req.userType = 'channel-partner';
-            req.user.role = 'channel-partner';
-            return next();
-          }
         }
       }
 
@@ -159,23 +138,6 @@ const protect = async (req, res, next) => {
         req.user = client;
         req.userType = 'client';
         req.user.role = 'client';
-        return next();
-      }
-
-      // Try to find Channel Partner
-      let channelPartner = await ChannelPartner.findById(decoded.id);
-      if (channelPartner) {
-        if (!channelPartner.isActive) {
-          return res.status(403).json({
-            success: false,
-            message: 'Your account has been deactivated. Please contact support for assistance.',
-            code: 'ACCOUNT_INACTIVE'
-          });
-        }
-        req.channelPartner = channelPartner;
-        req.user = channelPartner;
-        req.userType = 'channel-partner';
-        req.user.role = 'channel-partner';
         return next();
       }
 

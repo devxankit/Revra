@@ -5,10 +5,8 @@ const Client = require('../models/Client');
 const Employee = require('../models/Employee');
 const PM = require('../models/PM');
 const Sales = require('../models/Sales');
-const ChannelPartner = require('../models/ChannelPartner');
 const asyncHandler = require('../middlewares/asyncHandler');
 const ErrorResponse = require('../utils/errorResponse');
-const { CPWallet, CPWalletTransaction } = require('../models/CPWallet');
 
 // Map req.userType (set by protect) to model name for DB
 const USER_TYPE_TO_MODEL = {
@@ -19,12 +17,11 @@ const USER_TYPE_TO_MODEL = {
   'project-manager': 'PM',
   sales: 'Sales',
   employee: 'Employee',
-  client: 'Client',
-  'channel-partner': 'ChannelPartner'
+  client: 'Client'
 };
 
 // Helper to get user info from request (works for all user types)
-// Priority order: Admin > PM > Sales > Employee > Client > ChannelPartner
+// Priority order: Admin > PM > Sales > Employee > Client
 // Fallback: if req.user exists (set by protect) use req.user + req.userType
 const getUserInfo = (req) => {
   if (req.admin) {
@@ -42,15 +39,12 @@ const getUserInfo = (req) => {
   } else if (req.client) {
     const id = req.client._id || req.client.id;
     return id ? { id: String(id), model: 'Client', module: 'client' } : null;
-  } else if (req.channelPartner) {
-    const id = req.channelPartner._id || req.channelPartner.id;
-    return id ? { id: String(id), model: 'ChannelPartner', module: 'channel-partner' } : null;
   }
   // Fallback: protect set req.user/req.userType but role-specific ref may be missing in edge cases
   if (req.user && req.userType && USER_TYPE_TO_MODEL[req.userType]) {
     const id = req.user._id || req.user.id;
     const model = USER_TYPE_TO_MODEL[req.userType];
-    const module = req.userType === 'channel-partner' ? 'channel-partner' : req.userType;
+    const module = req.userType;
     return id ? { id: String(id), model, module } : null;
   }
   return null;
@@ -73,7 +67,7 @@ const populateRequest = async (request) => {
       'Employee': Employee,
       'PM': PM,
       'Sales': Sales,
-      'ChannelPartner': ChannelPartner
+      'Sales': Sales
     };
     const Model = modelMap[request.response.respondedByModel];
     if (Model && request.response.respondedBy) {
@@ -109,39 +103,17 @@ const createRequest = asyncHandler(async (req, res, next) => {
 
   let { title, description, type, priority, recipient, recipientModel, project, client, category, amount } = req.body;
 
-  // CP withdrawal request: recipient is auto-assigned to Admin
-  const isCPWithdrawal = type === 'withdrawal-request' && user.module === 'channel-partner';
-  if (isCPWithdrawal) {
-    if (!amount || amount <= 0) {
-      return next(new ErrorResponse('Valid withdrawal amount is required', 400));
-    }
-    const wallet = await CPWallet.findOne({ channelPartner: user.id });
-    if (!wallet) {
-      return next(new ErrorResponse('Wallet not found. Please contact support.', 404));
-    }
-    if (wallet.balance < parseFloat(amount)) {
-      return next(new ErrorResponse('Insufficient wallet balance', 400));
-    }
-    const admin = await Admin.findOne({ isActive: true }).select('_id');
-    if (!admin) {
-      return next(new ErrorResponse('No administrator available to process withdrawal requests', 500));
-    }
-    recipient = admin._id.toString();
-    recipientModel = 'Admin';
-    title = title || `Withdrawal Request - ₹${parseFloat(amount).toLocaleString('en-IN')}`;
-    description = description || `Channel Partner withdrawal request for ₹${parseFloat(amount).toLocaleString('en-IN')}`;
-  }
 
   // Validation (skip recipient checks for CP withdrawal - already set above)
   if (!title || !description || !type) {
     return next(new ErrorResponse('Title, description, and type are required', 400));
   }
-  if (!isCPWithdrawal && (!recipient || !recipientModel)) {
+  if (!recipient || !recipientModel) {
     return next(new ErrorResponse('Recipient and recipientModel are required', 400));
   }
 
   // Validate recipient model
-  if (!['Admin', 'Client', 'Employee', 'PM', 'Sales', 'ChannelPartner'].includes(recipientModel)) {
+  if (!['Admin', 'Client', 'Employee', 'PM', 'Sales'].includes(recipientModel)) {
     return next(new ErrorResponse('Invalid recipient model', 400));
   }
 
@@ -152,7 +124,7 @@ const createRequest = asyncHandler(async (req, res, next) => {
     'Employee': Employee,
     'PM': PM,
     'Sales': Sales,
-    'ChannelPartner': ChannelPartner
+    'Sales': Sales
   };
   const RecipientModel = modelMap[recipientModel];
   if (!RecipientModel) {
@@ -201,10 +173,6 @@ const createRequest = asyncHandler(async (req, res, next) => {
     amount: type === 'payment-recovery' || type === 'withdrawal-request' ? parseFloat(amount) : undefined,
     status: 'pending'
   };
-  if (isCPWithdrawal) {
-    const wallet = await CPWallet.findOne({ channelPartner: user.id });
-    requestData.metadata = { channelPartnerId: user.id, walletId: wallet._id.toString() };
-  }
   const request = await Request.create(requestData);
 
   await populateRequest(request);
@@ -343,7 +311,7 @@ const getRequests = asyncHandler(async (req, res, next) => {
         'Employee': Employee,
         'PM': PM,
         'Sales': Sales,
-        'ChannelPartner': ChannelPartner
+        'Sales': Sales
       };
       const Model = modelMap[request.response.respondedByModel];
       if (Model) {
@@ -589,37 +557,6 @@ const respondToRequest = asyncHandler(async (req, res, next) => {
     }
   }
 
-  // Handle CP withdrawal-request approval - deduct from CP wallet and create transaction
-  if (request.type === 'withdrawal-request' && request.requestedByModel === 'ChannelPartner' && responseType === 'approve') {
-    const withdrawalAmount = request.amount;
-    if (!withdrawalAmount || withdrawalAmount <= 0) {
-      return next(new ErrorResponse('Invalid withdrawal amount in request', 400));
-    }
-    const wallet = await CPWallet.findOne({ channelPartner: request.requestedBy });
-    if (!wallet) {
-      return next(new ErrorResponse('Channel Partner wallet not found', 404));
-    }
-    if (wallet.balance < withdrawalAmount) {
-      return next(new ErrorResponse('Insufficient wallet balance. Request may have been created when balance was higher.', 400));
-    }
-    await wallet.updateBalance(withdrawalAmount, 'debit');
-    const transaction = await CPWalletTransaction.create({
-      wallet: wallet._id,
-      channelPartner: request.requestedBy,
-      type: 'debit',
-      amount: withdrawalAmount,
-      transactionType: 'withdrawal',
-      description: `Withdrawal approved by admin - Request #${request._id}`,
-      reference: { type: 'withdrawal_request', id: request._id },
-      status: 'completed',
-      balanceAfter: wallet.balance
-    });
-    // Store transaction ref in request metadata for audit
-    if (!request.metadata) request.metadata = {};
-    request.metadata.withdrawalTransactionId = transaction._id.toString();
-    await request.save();
-  }
-
   // Handle increase-cost request approval - update project cost if approved
   if (request.type === 'increase-cost' && request.module === 'sales' && request.project) {
     const project = await Project.findById(request.project);
@@ -825,8 +762,7 @@ const getRequestStatistics = asyncHandler(async (req, res, next) => {
     employeeRequests,
     pmRequests,
     salesRequests,
-    adminRequests,
-    channelPartnerRequests
+    adminRequests
   ] = await Promise.all([
     Request.countDocuments(filter),
     Request.countDocuments({ ...filter, status: 'pending' }),
@@ -839,7 +775,6 @@ const getRequestStatistics = asyncHandler(async (req, res, next) => {
     Request.countDocuments({ ...filter, module: 'pm' }),
     Request.countDocuments({ ...filter, module: 'sales' }),
     Request.countDocuments({ ...filter, module: 'admin' }),
-    Request.countDocuments({ ...filter, module: 'channel-partner' })
   ]);
 
   res.json({
@@ -856,8 +791,7 @@ const getRequestStatistics = asyncHandler(async (req, res, next) => {
       employeeRequests,
       pmRequests,
       salesRequests,
-      adminRequests,
-      channelPartnerRequests
+      adminRequests
     }
   });
 });

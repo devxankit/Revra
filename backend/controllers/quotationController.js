@@ -42,7 +42,6 @@ const getAllQuotations = asyncHandler(async (req, res, next) => {
   // Get quotations
   const quotations = await Quotation.find(filter)
     .populate('createdBy', 'name email')
-    .populate('sharedBy.channelPartner', 'name email')
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limitNum);
@@ -63,7 +62,6 @@ const getAllQuotations = asyncHandler(async (req, res, next) => {
 const getQuotationById = asyncHandler(async (req, res, next) => {
   const quotation = await Quotation.findById(req.params.id)
     .populate('createdBy', 'name email')
-    .populate('sharedBy.channelPartner', 'name email');
 
   if (!quotation) {
     return next(new ErrorResponse(`Quotation not found with id of ${req.params.id}`, 404));
@@ -161,7 +159,6 @@ const updateQuotation = asyncHandler(async (req, res, next) => {
     new: true,
     runValidators: true
   }).populate('createdBy', 'name email')
-    .populate('sharedBy.channelPartner', 'name email');
 
   res.status(200).json({
     success: true,

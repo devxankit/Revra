@@ -123,7 +123,6 @@ const leadSchema = new mongoose.Schema({
   }],
   // When this sales lead was shared with channel partner(s) – used to exclude from New Leads list
   sharedWithCP: [{
-    cpId: { type: mongoose.Schema.Types.ObjectId, ref: 'ChannelPartner' },
     sharedAt: { type: Date, default: Date.now }
   }],
   // Activity/interaction log

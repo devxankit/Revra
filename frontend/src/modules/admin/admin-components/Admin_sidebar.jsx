@@ -87,22 +87,10 @@ const Admin_sidebar = ({ isOpen, onClose }) => {
       icon: UserCheck
     },
     {
-      id: 'channel-partner-management',
-      label: 'Channel Partner',
-      path: '/admin-channel-partner-management',
-      icon: Handshake
-    },
-    {
       id: 'sales-management',
       label: 'Sales Management',
       path: '/admin-sales-management',
       icon: TrendingUp
-    },
-    {
-      id: 'client-management',
-      label: 'Client Management',
-      path: '/admin-client-management',
-      icon: Home
     },
     {
       id: 'finance-management',

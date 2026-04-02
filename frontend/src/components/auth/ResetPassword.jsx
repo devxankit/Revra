@@ -7,8 +7,6 @@ import { Input } from '../ui/input'
 import logo from '../../assets/images/logo.png'
 import { useToast } from '../../contexts/ToastContext'
 import { resetPasswordAdmin } from '../../modules/admin/admin-services/adminAuthService'
-import { resetPasswordEmployee } from '../../modules/dev/DEV-services/employeeAuthService'
-import { resetPasswordPM } from '../../modules/dev/DEV-services/pmAuthService'
 import { resetPasswordSales } from '../../modules/sells/SL-services/salesAuthService'
 
 const ResetPassword = () => {
@@ -78,10 +76,6 @@ const ResetPassword = () => {
     switch (userType) {
       case 'admin':
         return resetPasswordAdmin
-      case 'employee':
-        return resetPasswordEmployee
-      case 'pm':
-        return resetPasswordPM
       case 'sales':
         return resetPasswordSales
       default:
@@ -93,10 +87,6 @@ const ResetPassword = () => {
     switch (userType) {
       case 'admin':
         return '/admin-login'
-      case 'employee':
-        return '/employee-login'
-      case 'pm':
-        return '/pm-login'
       case 'sales':
         return '/sales-login'
       default:

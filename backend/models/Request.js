@@ -65,9 +65,9 @@ const requestSchema = new mongoose.Schema({
   requestedByModel: {
     type: String,
     required: true,
-    enum: ['Admin', 'Client', 'Employee', 'PM', 'Sales', 'ChannelPartner']
+    enum: ['Admin', 'Client', 'Employee', 'PM', 'Sales']
   },
-  // Who is the recipient (polymorphic - can be Admin, Client, Employee, PM, Sales, or ChannelPartner)
+  // Who is the recipient (polymorphic - can be Admin, Client, Employee, PM, or Sales)
   recipient: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -76,7 +76,7 @@ const requestSchema = new mongoose.Schema({
   recipientModel: {
     type: String,
     required: true,
-    enum: ['Admin', 'Client', 'Employee', 'PM', 'Sales', 'ChannelPartner']
+    enum: ['Admin', 'Client', 'Employee', 'PM', 'Sales']
   },
   // Related project (optional for non-project requests)
   project: {
@@ -121,7 +121,7 @@ const requestSchema = new mongoose.Schema({
     },
     respondedByModel: {
       type: String,
-      enum: ['Admin', 'Client', 'Employee', 'PM', 'Sales', 'ChannelPartner']
+      enum: ['Admin', 'Client', 'Employee', 'PM', 'Sales']
     },
     respondedDate: {
       type: Date

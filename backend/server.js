@@ -22,18 +22,8 @@ const connectDB = require('./config/db');
 // Import routes
 const adminRoutes = require('./routes/adminRoutes');
 const adminUserRoutes = require('./routes/adminUserRoutes');
-const pmRoutes = require('./routes/pmRoutes');
 const salesRoutes = require('./routes/salesRoutes');
-const employeeRoutes = require('./routes/employeeRoutes');
-const clientRoutes = require('./routes/clientRoutes');
-const cpAuthRoutes = require('./routes/cpAuthRoutes');
 
-// Import new PM module routes
-const projectRoutes = require('./routes/projectRoutes');
-const milestoneRoutes = require('./routes/milestoneRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
-const analyticsRoutes = require('./routes/analyticsRoutes');
 
 // Import role-specific routes
 const adminProjectRoutes = require('./routes/adminProjectRoutes');
@@ -48,22 +38,8 @@ const adminNoticeRoutes = require('./routes/adminNoticeRoutes');
 const adminBackupRoutes = require('./routes/adminBackupRoutes');
 const adminClientTagRoutes = require('./routes/adminClientTagRoutes');
 const adminClientBannerRoutes = require('./routes/adminClientBannerRoutes');
-const channelPartnerRoutes = require('./routes/channelPartnerRoutes');
 const quotationRoutes = require('./routes/quotationRoutes');
-const employeeProjectRoutes = require('./routes/employeeProjectRoutes');
-const employeeTaskRoutes = require('./routes/employeeTaskRoutes');
-const employeeAnalyticsRoutes = require('./routes/employeeAnalyticsRoutes');
-const employeeMilestoneRoutes = require('./routes/employeeMilestoneRoutes');
-const employeeNotificationRoutes = require('./routes/employeeNotificationRoutes');
-const clientProjectRoutes = require('./routes/clientProjectRoutes');
-const clientMilestoneRoutes = require('./routes/clientMilestoneRoutes');
-const clientPaymentRoutes = require('./routes/clientPaymentRoutes');
-const clientWalletRoutes = require('./routes/clientWalletRoutes');
-const clientNotificationRoutes = require('./routes/clientNotificationRoutes');
-const clientExploreRoutes = require('./routes/clientExploreRoutes');
-const clientBannerRoutes = require('./routes/clientBannerRoutes');
 const requestRoutes = require('./routes/requestRoutes');
-const cpRoutes = require('./routes/cpRoutes');
 const fcmTokenRoutes = require('./routes/fcmTokenRoutes');
 
 // Import socket service
@@ -235,23 +211,9 @@ app.use('/api/admin/notices', adminNoticeRoutes);
 app.use('/api/admin/backup', adminBackupRoutes);
 app.use('/api/admin/client-tags', adminClientTagRoutes);
 app.use('/api/admin/client-banners', adminClientBannerRoutes);
-app.use('/api/admin/channel-partners', channelPartnerRoutes);
 app.use('/api/admin/quotations', quotationRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/pm', pmRoutes);
 app.use('/api/sales', salesRoutes);
-app.use('/api/employee', employeeRoutes);
-// Client-specific routes (must come before /api/client to avoid prefix capture)
-app.use('/api/client/projects', clientProjectRoutes);
-app.use('/api/client/milestones', clientMilestoneRoutes);
-app.use('/api/client/payments', clientPaymentRoutes);
-app.use('/api/client/wallet', clientWalletRoutes);
-app.use('/api/client/notifications', clientNotificationRoutes);
-app.use('/api/client/explore', clientExploreRoutes);
-app.use('/api/client/banners', clientBannerRoutes);
-app.use('/api/client', clientRoutes);
-app.use('/api/channel-partner', cpAuthRoutes);
-app.use('/api/cp', cpRoutes);
 
 // API routes without /api prefix (for reverse proxy compatibility)
 // Note: More specific admin routes MUST come before /admin (adminRoutes)
@@ -268,67 +230,15 @@ app.use('/admin/notices', adminNoticeRoutes);
 app.use('/admin/backup', adminBackupRoutes);
 app.use('/admin/client-tags', adminClientTagRoutes);
 app.use('/admin/client-banners', adminClientBannerRoutes);
-app.use('/admin/channel-partners', channelPartnerRoutes);
 app.use('/admin/quotations', quotationRoutes);
 app.use('/admin', adminRoutes);
-app.use('/pm', pmRoutes);
 app.use('/sales', salesRoutes);
-app.use('/employee', employeeRoutes);
-// Client-specific routes (must come before /client)
-app.use('/client/projects', clientProjectRoutes);
-app.use('/client/milestones', clientMilestoneRoutes);
-app.use('/client/payments', clientPaymentRoutes);
-app.use('/client/wallet', clientWalletRoutes);
-app.use('/client/notifications', clientNotificationRoutes);
-app.use('/client/explore', clientExploreRoutes);
-app.use('/client/banners', clientBannerRoutes);
-app.use('/client', clientRoutes);
-app.use('/channel-partner', cpAuthRoutes);
-app.use('/cp', cpRoutes);
 
 // Universal API routes with /api prefix (available to all authenticated users)
 app.use('/api/requests', requestRoutes);
 app.use('/api/fcm-tokens', fcmTokenRoutes);
 
-// PM Module API routes (PM-only) with /api prefix
-app.use('/api/projects', projectRoutes);
-app.use('/api/milestones', milestoneRoutes);
-app.use('/api/tasks', taskRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/analytics', analyticsRoutes);
 
-// Universal API routes without /api prefix (for reverse proxy compatibility)
-app.use('/requests', requestRoutes);
-app.use('/fcm-tokens', fcmTokenRoutes);
-
-// PM Module API routes without /api prefix (for reverse proxy compatibility)
-app.use('/projects', projectRoutes);
-app.use('/milestones', milestoneRoutes);
-app.use('/tasks', taskRoutes);
-app.use('/payments', paymentRoutes);
-app.use('/analytics', analyticsRoutes);
-
-// Role-specific API routes with /api prefix
-// Admin routes already registered above (before adminRoutes)
-// Employee routes
-app.use('/api/employee/projects', employeeProjectRoutes);
-app.use('/api/employee/tasks', employeeTaskRoutes);
-app.use('/api/employee/analytics', employeeAnalyticsRoutes);
-app.use('/api/employee/milestones', employeeMilestoneRoutes);
-app.use('/api/employee/notifications', employeeNotificationRoutes);
-
-// Client routes (already registered above with /api prefix)
-
-// Role-specific API routes without /api prefix (for reverse proxy compatibility)
-// Admin routes already registered above (before adminRoutes)
-// Employee routes
-app.use('/employee/projects', employeeProjectRoutes);
-app.use('/employee/tasks', employeeTaskRoutes);
-app.use('/employee/analytics', employeeAnalyticsRoutes);
-app.use('/employee/milestones', employeeMilestoneRoutes);
-app.use('/employee/notifications', employeeNotificationRoutes);
-
-// Client routes (already registered above)
 
 // API routes documentation
 app.get('/api', (req, res) => {
@@ -340,19 +250,9 @@ app.get('/api', (req, res) => {
         'POST /api/admin/login',
         'GET /api/admin/profile',
         'POST /api/admin/logout',
-        'POST /api/pm/login',
-        'GET /api/pm/profile',
-        'POST /api/pm/logout',
         'POST /api/sales/login',
         'GET /api/sales/profile',
-        'POST /api/sales/logout',
-        'POST /api/employee/login',
-        'GET /api/employee/profile',
-        'POST /api/employee/logout',
-        'POST /api/client/send-otp',
-        'POST /api/client/verify-otp',
-        'GET /api/client/profile',
-        'POST /api/client/logout'
+        'POST /api/sales/logout'
       ],
       admin: [
         'GET /api/admin/users/statistics',
@@ -395,81 +295,6 @@ app.get('/api', (req, res) => {
         'GET /api/admin/sales/analytics/categories',
         'GET /api/admin/sales/analytics/team'
       ],
-      projects: [
-        'POST /api/projects (PM only)',
-        'GET /api/projects (PM only)',
-        'GET /api/projects/:id (PM only)',
-        'PUT /api/projects/:id (PM only)',
-        'DELETE /api/projects/:id (PM only)',
-        'GET /api/projects/client/:clientId (PM only)',
-        'GET /api/projects/pm/:pmId (PM only)',
-        'GET /api/projects/statistics (PM only)',
-        'POST /api/projects/:id/attachments (PM only)',
-        'DELETE /api/projects/:id/attachments/:attachmentId (PM only)'
-      ],
-      milestones: [
-        'POST /api/milestones',
-        'GET /api/milestones/project/:projectId',
-        'GET /api/milestones/:id',
-        'PUT /api/milestones/:id',
-        'DELETE /api/milestones/:id',
-        'PATCH /api/milestones/:id/progress',
-        'POST /api/milestones/:id/attachments',
-        'DELETE /api/milestones/:id/attachments/:attachmentId'
-      ],
-      tasks: [
-        'POST /api/tasks',
-        'POST /api/tasks/urgent',
-        'GET /api/tasks/milestone/:milestoneId',
-        'GET /api/tasks/project/:projectId',
-        'GET /api/tasks/employee/:employeeId',
-        'GET /api/tasks/urgent',
-        'GET /api/tasks/:id',
-        'PUT /api/tasks/:id',
-        'DELETE /api/tasks/:id',
-        'PATCH /api/tasks/:id/status',
-        'PATCH /api/tasks/:id/assign',
-        'POST /api/tasks/:id/comments',
-        'POST /api/tasks/:id/attachments',
-        'DELETE /api/tasks/:id/attachments/:attachmentId'
-      ],
-      payments: [
-        'POST /api/payments',
-        'GET /api/payments/project/:projectId',
-        'GET /api/payments/client/:clientId',
-        'PUT /api/payments/:id',
-        'GET /api/payments/statistics',
-        'GET /api/payments/project/:projectId/statistics',
-        'GET /api/payments/client/:clientId/statistics'
-      ],
-      analytics: [
-        'GET /api/analytics/pm/dashboard',
-        'GET /api/analytics/project/:projectId',
-        'GET /api/analytics/employee/:employeeId',
-        'GET /api/analytics/client/:clientId',
-        'GET /api/analytics/productivity'
-      ],
-      employee: [
-        'GET /api/employee/projects (Employee only)',
-        'GET /api/employee/projects/:id (Employee only)',
-        'GET /api/employee/projects/:id/milestones (Employee only)',
-        'GET /api/employee/projects/statistics (Employee only)',
-        'GET /api/employee/tasks (Employee only)',
-        'GET /api/employee/tasks/:id (Employee only)',
-        'PATCH /api/employee/tasks/:id/status (Employee only)',
-        'POST /api/employee/tasks/:id/comments (Employee only)',
-        'GET /api/employee/tasks/urgent (Employee only)',
-        'GET /api/employee/tasks/statistics (Employee only)'
-      ],
-      client: [
-        'GET /api/client/projects (Client only)',
-        'GET /api/client/projects/:id (Client only)',
-        'GET /api/client/projects/:id/milestones (Client only)',
-        'GET /api/client/projects/statistics (Client only)',
-        'GET /api/client/payments (Client only)',
-        'GET /api/client/payments/:id (Client only)',
-        'GET /api/client/payments/statistics (Client only)'
-      ]
     },
     websocket: {
       connection: 'Socket.io connection with JWT authentication',
