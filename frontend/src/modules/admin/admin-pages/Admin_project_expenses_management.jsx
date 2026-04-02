@@ -60,7 +60,7 @@ const Admin_project_expenses_management = () => {
     category: '',
     amount: '',
     vendor: '',
-    paidBy: 'appzeto',
+    paidBy: 'Revra',
     paymentMethod: 'Bank Transfer',
     expenseDate: new Date().toISOString().split('T')[0],
     description: ''
@@ -461,7 +461,7 @@ const Admin_project_expenses_management = () => {
       category: '',
       amount: '',
       vendor: '',
-      paidBy: 'appzeto',
+      paidBy: 'Revra',
       paymentMethod: 'Bank Transfer',
       expenseDate: new Date().toISOString().split('T')[0],
       description: ''
@@ -482,7 +482,7 @@ const Admin_project_expenses_management = () => {
       category: '',
       amount: '',
       vendor: '',
-      paidBy: 'appzeto',
+      paidBy: 'Revra',
       paymentMethod: 'Bank Transfer',
       expenseDate: new Date().toISOString().split('T')[0],
       description: ''
@@ -521,7 +521,7 @@ const Admin_project_expenses_management = () => {
       category: expense.category || '',
       amount: amountValue,
       vendor: expense.vendor || '',
-      paidBy: (expense.paidBy || 'appzeto'),
+      paidBy: (expense.paidBy || 'Revra'),
       paymentMethod: expense.paymentMethod || 'Bank Transfer',
       expenseDate: expenseDateValue,
       description: expense.description || ''
@@ -558,7 +558,7 @@ const Admin_project_expenses_management = () => {
       category: expense.category || '',
       amount: amountValue,
       vendor: expense.vendor || '',
-      paidBy: (expense.paidBy || 'appzeto'),
+      paidBy: (expense.paidBy || 'Revra'),
       paymentMethod: expense.paymentMethod || 'Bank Transfer',
       expenseDate: expenseDateValue,
       description: expense.description || ''
@@ -631,7 +631,7 @@ const Admin_project_expenses_management = () => {
           category: '',
           amount: '',
           vendor: '',
-          paidBy: 'appzeto',
+          paidBy: 'Revra',
           paymentMethod: 'Bank Transfer',
           expenseDate: new Date().toISOString().split('T')[0],
           description: ''
@@ -1732,8 +1732,8 @@ const Admin_project_expenses_management = () => {
                         </td>
                         <td className="py-3 px-4">
                           {(() => {
-                            const paidBy = (item.paidBy || 'appzeto').toLowerCase()
-                            const label = paidBy === 'client' ? 'Client' : 'Appzeto'
+                            const paidBy = (item.paidBy || 'Revra').toLowerCase()
+                            const label = paidBy === 'client' ? 'Client' : 'Revra'
                             return (
                               <span className="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-medium bg-gray-50 text-gray-700 border border-gray-200">
                                 {label}
@@ -2402,7 +2402,7 @@ const Admin_project_expenses_management = () => {
                         required
                         disabled={projectExpenseModalMode === 'view'}
                       >
-                        <option value="appzeto">Paid by Appzeto</option>
+                        <option value="Revra">Paid by Revra</option>
                         <option value="client">Paid by Client</option>
                       </select>
                     </div>
@@ -3086,7 +3086,7 @@ const Admin_project_expenses_management = () => {
                     <ol className="list-decimal pl-5 space-y-1.5">
                       <li>Go to the <strong>Expenses</strong> tab.</li>
                       <li>Click <strong>Add Project Expense</strong>.</li>
-                      <li>Select project, category, amount, vendor/client, paid by (Appzeto/Client), payment method, date, and description.</li>
+                      <li>Select project, category, amount, vendor/client, paid by (Revra/Client), payment method, date, and description.</li>
                       <li>For excluded projects, a warning appears — expenses will not create system transactions.</li>
                       <li>Click Save to create the expense.</li>
                     </ol>

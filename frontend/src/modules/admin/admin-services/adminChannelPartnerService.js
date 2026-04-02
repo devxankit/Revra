@@ -40,7 +40,7 @@ class AdminChannelPartnerService {
     try {
       // Handle document upload to Cloudinary if present
       if (partnerData.document && partnerData.document instanceof File) {
-        const uploadResult = await uploadToCloudinary(partnerData.document, 'appzeto/channel-partners/documents');
+        const uploadResult = await uploadToCloudinary(partnerData.document, 'Revra/channel-partners/documents');
         if (uploadResult.success) {
           partnerData.document = uploadResult.data;
         } else {
@@ -88,7 +88,7 @@ class AdminChannelPartnerService {
     try {
       // Handle document upload to Cloudinary if present
       if (partnerData.document && partnerData.document instanceof File) {
-        const uploadResult = await uploadToCloudinary(partnerData.document, 'appzeto/channel-partners/documents');
+        const uploadResult = await uploadToCloudinary(partnerData.document, 'Revra/channel-partners/documents');
         if (uploadResult.success) {
           partnerData.document = uploadResult.data;
         } else {

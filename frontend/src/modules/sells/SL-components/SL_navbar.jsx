@@ -86,7 +86,7 @@ function SL_navbar() {
           <Link to="/dashboard" className="flex items-center -ml-2">
             <img 
               src={logo} 
-              alt="Appzeto" 
+              alt="Revra" 
               className="h-9 w-auto"
             />
           </Link>
@@ -167,7 +167,7 @@ function SL_navbar() {
                 <Link to="/dashboard" className="flex items-center -ml-2">
                   <img 
                     src={logo} 
-                    alt="Appzeto" 
+                    alt="Revra" 
                     className="h-10 w-auto"
                   />
                 </Link>

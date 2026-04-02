@@ -8,7 +8,7 @@ const CloudinaryUpload = ({
   onUploadSuccess,
   onUploadError,
   onRemoveExisting,
-  folder = 'appzeto',
+  folder = 'Revra',
   maxSize = 10 * 1024 * 1024, // 10MB
   allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
   className = '',

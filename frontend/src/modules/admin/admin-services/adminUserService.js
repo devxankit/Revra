@@ -61,7 +61,7 @@ class AdminUserService {
     try {
       // Handle document upload to Cloudinary if present
       if (userData.document && userData.document instanceof File) {
-        const uploadResult = await uploadToCloudinary(userData.document, 'appzeto/users/documents');
+        const uploadResult = await uploadToCloudinary(userData.document, 'Revra/users/documents');
         if (uploadResult.success) {
           userData.document = uploadResult.data;
         } else {
@@ -111,7 +111,7 @@ class AdminUserService {
       const normalizedType = this.mapUserTypeForApi(userType);
       // Handle document upload to Cloudinary if present
       if (userData.document && userData.document instanceof File) {
-        const uploadResult = await uploadToCloudinary(userData.document, 'appzeto/users/documents');
+        const uploadResult = await uploadToCloudinary(userData.document, 'Revra/users/documents');
         if (uploadResult.success) {
           userData.document = uploadResult.data;
         } else {

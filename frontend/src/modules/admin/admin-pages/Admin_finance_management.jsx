@@ -2934,8 +2934,8 @@ const Admin_finance_management = () => {
                         </td>
                         <td className="py-3 px-4">
                           {(() => {
-                            const paidBy = (item.paidBy || 'appzeto').toLowerCase()
-                            const label = paidBy === 'client' ? 'Client' : 'Appzeto'
+                            const paidBy = (item.paidBy || 'Revra').toLowerCase()
+                            const label = paidBy === 'client' ? 'Client' : 'Revra'
                             return (
                               <span className="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-medium bg-gray-50 text-gray-700 border border-gray-200">
                                 {label}

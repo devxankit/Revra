@@ -5,9 +5,9 @@ importScripts('https://www.gstatic.com/firebasejs/10.13.0/firebase-messaging-com
 // Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyDCABaZBQkyM6tQSxKPbtkVTfbbhE-xfvo',
-  authDomain: 'appzeto-afa29.firebaseapp.com',
-  projectId: 'appzeto-afa29',
-  storageBucket: 'appzeto-afa29.firebasestorage.app',
+  authDomain: 'Revra-afa29.firebaseapp.com',
+  projectId: 'Revra-afa29',
+  storageBucket: 'Revra-afa29.firebasestorage.app',
   messagingSenderId: '761563654142',
   appId: '1:761563654142:web:e83be0c6cebb08623f42af',
   measurementId: 'G-XDE5YPP55W'
@@ -26,7 +26,7 @@ const messaging = firebase.messaging();
 
 // Handle background messages (tab in background or app closed)
 messaging.onBackgroundMessage(async (payload) => {
-  const notificationTitle = payload.notification?.title || payload.data?.title || 'Appzeto Notification';
+  const notificationTitle = payload.notification?.title || payload.data?.title || 'Revra Notification';
   const notificationBody = payload.notification?.body || payload.data?.body || '';
   const notificationOptions = {
     body: notificationBody,

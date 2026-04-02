@@ -185,11 +185,11 @@ const ResetPassword = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center mb-8 relative z-10"
           >
-            {/* Appzeto Logo */}
+            {/* Revra Logo */}
             <div className="flex justify-center mb-6">
               <img 
                 src={logo} 
-                alt="Appzeto Logo" 
+                alt="Revra Logo" 
                 className="h-16 w-auto"
               />
             </div>

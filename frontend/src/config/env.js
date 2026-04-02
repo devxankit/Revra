@@ -34,7 +34,7 @@ export const config = {
   API_BASE_URL: resolveApiBaseUrl(),
 
   // App Configuration
-  APP_NAME: import.meta.env.VITE_APP_NAME || 'Appzeto',
+  APP_NAME: import.meta.env.VITE_APP_NAME || 'Revra',
   APP_VERSION: import.meta.env.VITE_APP_VERSION || '1.0.0',
   NODE_ENV: import.meta.env.VITE_NODE_ENV || 'development',
 
@@ -45,7 +45,7 @@ export const config = {
   ENABLE_DEBUG: import.meta.env.VITE_ENABLE_DEBUG === 'true',
 
   // Other configurations
-  APP_DESCRIPTION: import.meta.env.VITE_APP_DESCRIPTION || 'Appzeto - Complete Business Management System'
+  APP_DESCRIPTION: import.meta.env.VITE_APP_DESCRIPTION || 'Revra - Complete Business Management System'
 };
 
 // Helper function to get API URL

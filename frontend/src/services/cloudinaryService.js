@@ -7,7 +7,7 @@ const cloudinaryConfig = {
 };
 
 // Upload file to Cloudinary
-export const uploadToCloudinary = async (file, folder = 'appzeto', options = {}) => {
+export const uploadToCloudinary = async (file, folder = 'Revra', options = {}) => {
   try {
     const formData = new FormData();
     formData.append('file', file);
@@ -138,7 +138,7 @@ export const getDocumentUrl = (publicId, options = {}) => {
 };
 
 // Upload multiple files
-export const uploadMultipleFiles = async (files, folder = 'appzeto', options = {}) => {
+export const uploadMultipleFiles = async (files, folder = 'Revra', options = {}) => {
   try {
     const uploadPromises = files.map(file => uploadToCloudinary(file, folder, options));
     const results = await Promise.all(uploadPromises);

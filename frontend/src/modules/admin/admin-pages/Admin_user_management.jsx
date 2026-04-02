@@ -2108,7 +2108,7 @@ const Admin_user_management = () => {
                     onRemoveExisting={() => {
                       setFormData({ ...formData, document: null });
                     }}
-                    folder="appzeto/users/documents"
+                    folder="Revra/users/documents"
                     maxSize={10 * 1024 * 1024} // 10MB
                     allowedTypes={['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']}
                     accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"

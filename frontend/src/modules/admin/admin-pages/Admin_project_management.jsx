@@ -4649,7 +4649,7 @@ function getFinancialSummary(project) {
                             console.error('Upload error:', error)
                             setCreateModalError('Failed to upload file. Please try again.')
                           }}
-                          folder="appzeto/projects/attachments"
+                          folder="Revra/projects/attachments"
                           maxSize={10 * 1024 * 1024}
                           allowedTypes={['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'video/mp4', 'video/avi', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/zip', 'application/x-rar-compressed']}
                           accept=".jpg,.jpeg,.png,.gif,.mp4,.avi,.pdf,.doc,.docx,.txt,.zip,.rar"

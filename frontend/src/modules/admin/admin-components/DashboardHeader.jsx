@@ -8,7 +8,7 @@ import { cn } from '../../../lib/utils'
 
 const DashboardHeader = ({ 
   title = "Admin Dashboard",
-  subtitle = "Welcome to the Appzeto admin panel. Monitor and manage your entire platform.",
+  subtitle = "Welcome to the Revra admin panel. Monitor and manage your entire platform.",
   timeRange,
   onTimeRangeChange,
   onExport,

@@ -1443,7 +1443,7 @@ const Admin_client_management = () => {
                 <div>
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Upload banner</h4>
                   <CloudinaryUpload
-                    folder="appzeto/client-banners"
+                    folder="Revra/client-banners"
                     allowedTypes={['image/jpeg', 'image/jpg', 'image/png', 'image/webp']}
                     accept=".jpg,.jpeg,.png,.webp"
                     maxSize={5 * 1024 * 1024}

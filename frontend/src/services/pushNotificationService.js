@@ -257,7 +257,7 @@ function setupForegroundNotificationHandler(handler) {
   if (!messaging) return;
 
   onMessage(messaging, async (payload) => {
-    const notificationTitle = payload.notification?.title || payload.data?.title || 'Appzeto Notification';
+    const notificationTitle = payload.notification?.title || payload.data?.title || 'Revra Notification';
     const notificationBody = payload.notification?.body || payload.data?.body || '';
     const notificationOptions = {
       body: notificationBody,
