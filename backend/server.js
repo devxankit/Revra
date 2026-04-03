@@ -41,6 +41,7 @@ const adminClientBannerRoutes = require('./routes/adminClientBannerRoutes');
 const quotationRoutes = require('./routes/quotationRoutes');
 const requestRoutes = require('./routes/requestRoutes');
 const fcmTokenRoutes = require('./routes/fcmTokenRoutes');
+const adminInsuranceRoutes = require('./routes/adminInsuranceRoutes');
 
 // Import socket service
 const socketService = require('./services/socketService');
@@ -212,6 +213,7 @@ app.use('/api/admin/backup', adminBackupRoutes);
 app.use('/api/admin/client-tags', adminClientTagRoutes);
 app.use('/api/admin/client-banners', adminClientBannerRoutes);
 app.use('/api/admin/quotations', quotationRoutes);
+app.use('/api/admin/insurance', adminInsuranceRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/sales', salesRoutes);
 
@@ -231,6 +233,7 @@ app.use('/admin/backup', adminBackupRoutes);
 app.use('/admin/client-tags', adminClientTagRoutes);
 app.use('/admin/client-banners', adminClientBannerRoutes);
 app.use('/admin/quotations', quotationRoutes);
+app.use('/admin/insurance', adminInsuranceRoutes);
 app.use('/admin', adminRoutes);
 app.use('/sales', salesRoutes);
 

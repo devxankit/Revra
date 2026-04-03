@@ -12,7 +12,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @route   POST /api/admin/sales/leads
 // @access  Private (Admin/HR only)
 const createLead = asyncHandler(async (req, res, next) => {
-  const { phone, name, company, email, category, priority, value, notes } = req.body;
+  const { phone, name, company, email, category, priority, value, notes, source } = req.body;
 
   // Validate required fields
   if (!phone || !category) {
@@ -39,6 +39,7 @@ const createLead = asyncHandler(async (req, res, next) => {
     category,
     priority: priority || 'medium',
     notes,
+    source: source || 'manual',
     createdBy: req.admin.id,
     creatorModel: 'Admin'
   });
@@ -57,7 +58,7 @@ const createLead = asyncHandler(async (req, res, next) => {
 // @route   POST /api/admin/sales/leads/bulk
 // @access  Private (Admin/HR only)
 const createBulkLeads = asyncHandler(async (req, res, next) => {
-  const { phoneNumbers, category, priority } = req.body;
+  const { phoneNumbers, category, priority, source } = req.body;
 
   if (!phoneNumbers || !Array.isArray(phoneNumbers) || phoneNumbers.length === 0) {
     return next(new ErrorResponse('Phone numbers array is required', 400));
@@ -104,7 +105,7 @@ const createBulkLeads = asyncHandler(async (req, res, next) => {
         phone,
         category,
         priority: priority || 'medium',
-        source: 'bulk_upload',
+        source: source || 'bulk_upload',
         createdBy: req.admin.id,
         creatorModel: 'Admin'
       });

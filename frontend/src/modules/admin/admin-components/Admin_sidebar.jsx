@@ -16,7 +16,8 @@ import {
   Activity,
   Home,
   Receipt,
-  Settings
+  Settings,
+  Shield // Added Shield icon for Insurance
 } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
 import { adminStorage } from '../admin-services/baseApiService'
@@ -109,6 +110,12 @@ const Admin_sidebar = ({ isOpen, onClose }) => {
       label: 'Reward Management',
       path: '/admin-reward-management',
       icon: Gift
+    },
+    {
+      id: 'insurance-management',
+      label: 'Insurance Management',
+      path: '/admin-insurance-management',
+      icon: Shield
     },
     {
       id: 'requests-management',

@@ -53,6 +53,7 @@ import Admin_hr_management from './modules/admin/admin-pages/Admin_hr_management
 import Admin_client_management from './modules/admin/admin-pages/Admin_client_management'
 import Admin_notice_board from './modules/admin/admin-pages/Admin_notice_board'
 import Admin_recent_activities from './modules/admin/admin-pages/Admin_recent_activities'
+import Admin_insurance_management from './modules/admin/admin-pages/Admin_insurance_management'
 import Admin_project_expenses_management from './modules/admin/admin-pages/Admin_project_expenses_management'
 import Admin_settings from './modules/admin/admin-pages/Admin_settings'
 import ResetPassword from './components/auth/ResetPassword'
@@ -242,6 +243,11 @@ function App() {
               <Route path="/admin-reward-management" element={
                 <ProtectedRoute>
                   <Admin_reward_management />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin-insurance-management" element={
+                <ProtectedRoute>
+                  <Admin_insurance_management />
                 </ProtectedRoute>
               } />
               <Route path="/admin-requests-management" element={
