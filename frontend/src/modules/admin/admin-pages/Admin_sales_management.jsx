@@ -2684,6 +2684,7 @@ const Admin_sales_management = () => {
                 </div>
               )}
 
+              {activeTab === 'leads' && (
                 <div className="space-y-6">
                   {/* Leads List */}
                   <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
@@ -2693,7 +2694,6 @@ const Admin_sales_management = () => {
                         <div className="text-sm text-gray-500">
                           {activeTab === 'leads' ? totalLeadsCount : filteredData.length} leads found
                         </div>
-                      </div>
                       </div>
                     </div>
 
